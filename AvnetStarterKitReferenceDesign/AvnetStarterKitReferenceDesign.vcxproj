@@ -49,11 +49,13 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="epoll_timerfd_utilities.c" />
     <ClCompile Include="parson.c" />
+    <ClCompile Include="uart.c" />
     <ClInclude Include="azure_iot_utilities.h" />
     <ClInclude Include="build_options.h" />
     <ClInclude Include="deviceTwin.h" />
     <ClInclude Include="epoll_timerfd_utilities.h" />
     <ClInclude Include="parson.h" />
+    <ClInclude Include="uart.h" />
     <UpToDateCheckInput Include="app_manifest.json" />
     <ClInclude Include="i2c.h" />
     <ClInclude Include="lps22hh_reg.h" />

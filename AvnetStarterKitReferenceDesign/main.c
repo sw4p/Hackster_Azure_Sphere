@@ -50,6 +50,7 @@
 #include "applibs_versions.h"
 #include "epoll_timerfd_utilities.h"
 #include "i2c.h"
+#include "Uart.h"
 #include "mt3620_avnet_dev.h"
 #include "deviceTwin.h"
 #include "azure_iot_utilities.h"
@@ -84,6 +85,9 @@ int userLedBlueFd = -1;
 int wifiLedFd = -1;
 int clickSocket1Relay1Fd = -1;
 int clickSocket1Relay2Fd = -1;
+
+// Extern variable
+extern int uartFd;
 
 // Azure IoT Hub/Central defines.
 #define SCOPEID_LENGTH 20
@@ -141,6 +145,7 @@ static void ButtonTimerEventHandler(EventData *eventData)
 	// The button has GPIO_Value_Low when pressed and GPIO_Value_High when released
 	if (newButtonAState != buttonAState) {
 		if (newButtonAState == GPIO_Value_Low) {
+			//SendUartMessage(uartFd, "Button A pressed!\n");
 			Log_Debug("Button A pressed!\n");
 			sendTelemetryButtonA = true;
 		}
@@ -166,6 +171,7 @@ static void ButtonTimerEventHandler(EventData *eventData)
 	if (newButtonBState != buttonBState) {
 		if (newButtonBState == GPIO_Value_Low) {
 			// Send Telemetry here
+			//SendUartMessage(uartFd, "Button B pressed!\n");
 			Log_Debug("Button B pressed!\n");
 			sendTelemetryButtonB = true;
 		}
@@ -227,6 +233,10 @@ static int InitPeripheralsAndHandlers(void)
 	if (initI2c() == -1) {
 		return -1;
 	}
+
+//	if (initUart() == -1) {
+	//	return -1;
+	//}
 	
 	// Traverse the twin Array and for each GPIO item in the list open the file descriptor
 	for (int i = 0; i < twinArraySize; i++) {
@@ -283,6 +293,7 @@ static void ClosePeripheralsAndHandlers(void)
     Log_Debug("Closing file descriptors.\n");
     
 	closeI2c();
+	//closeUart();
     CloseFdAndPrintError(epollFd, "Epoll");
 	CloseFdAndPrintError(buttonPollTimerFd, "buttonPoll");
 	CloseFdAndPrintError(buttonAGpioFd, "buttonA");

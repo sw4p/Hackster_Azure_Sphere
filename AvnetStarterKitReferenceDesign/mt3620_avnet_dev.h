@@ -3,7 +3,7 @@
 #pragma once
 
 #include <soc/mt3620_gpios.h>
-//#include <soc/mt3620_uarts.h>
+#include <soc/mt3620_uarts.h>
 #include <soc/mt3620_i2cs.h>
 #include <applibs/gpio.h> 
 
