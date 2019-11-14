@@ -145,7 +145,7 @@ static void ButtonTimerEventHandler(EventData *eventData)
 	// The button has GPIO_Value_Low when pressed and GPIO_Value_High when released
 	if (newButtonAState != buttonAState) {
 		if (newButtonAState == GPIO_Value_Low) {
-			//SendUartMessage(uartFd, "Button A pressed!\n");
+			SendUartMessage(uartFd, "Button A pressed!\n");
 			Log_Debug("Button A pressed!\n");
 			sendTelemetryButtonA = true;
 		}
@@ -171,7 +171,7 @@ static void ButtonTimerEventHandler(EventData *eventData)
 	if (newButtonBState != buttonBState) {
 		if (newButtonBState == GPIO_Value_Low) {
 			// Send Telemetry here
-			//SendUartMessage(uartFd, "Button B pressed!\n");
+			SendUartMessage(uartFd, "Button B pressed!\n");
 			Log_Debug("Button B pressed!\n");
 			sendTelemetryButtonB = true;
 		}
@@ -235,9 +235,9 @@ static int InitPeripheralsAndHandlers(void)
 		return -1;
 	}
 
-//	if (initUart() == -1) {
-	//	return -1;
-	//}
+	if (initUart() == -1) {
+		return -1;
+	}
 	
 	// Traverse the twin Array and for each GPIO item in the list open the file descriptor
 	for (int i = 0; i < twinArraySize; i++) {
@@ -294,7 +294,7 @@ static void ClosePeripheralsAndHandlers(void)
     Log_Debug("Closing file descriptors.\n");
     
 	closeI2c();
-	//closeUart();
+	closeUart();
     CloseFdAndPrintError(epollFd, "Epoll");
 	CloseFdAndPrintError(buttonPollTimerFd, "buttonPoll");
 	CloseFdAndPrintError(buttonAGpioFd, "buttonA");
