@@ -2,7 +2,7 @@
 
 // If your application is going to connect to an IoT Central Application, then enable this define.  When
 // enabled Device Twin JSON updates will conform to what IoT Central expects to confirm Device Twin settings
-//#define IOT_CENTRAL_APPLICATION
+#define IOT_CENTRAL_APPLICATION
 
 // If your application is going to connect straight to a IoT Hub, then enable this define.
 //#define IOT_HUB_APPLICATION
@@ -27,6 +27,10 @@
 // Defines how quickly the accelerator data is read and reported
 #define ACCEL_READ_PERIOD_SECONDS 1
 #define ACCEL_READ_PERIOD_NANO_SECONDS 0
+
+// Defines how quickly the PID data is read from OBD-II and reported
+#define OBD_PID_READ_PERIOD_SECONDS 5
+#define OBD_PID_READ_PERIOD_NANO_SECONDS 0
 
 // Enables I2C read/write debug
 //#define ENABLE_READ_WRITE_DEBUG

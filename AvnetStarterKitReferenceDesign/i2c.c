@@ -398,10 +398,10 @@ int initI2c(void) {
 	struct timespec accelReadPeriod = { .tv_sec = ACCEL_READ_PERIOD_SECONDS,.tv_nsec = ACCEL_READ_PERIOD_NANO_SECONDS };
 	// event handler data structures. Only the event handler field needs to be populated.
 	static EventData accelEventData = { .eventHandler = &AccelTimerEventHandler };
-	//accelTimerFd = CreateTimerFdAndAddToEpoll(epollFd, &accelReadPeriod, &accelEventData, EPOLLIN);
-	//if (accelTimerFd < 0) {
-	//	return -1;
-	//}
+	accelTimerFd = CreateTimerFdAndAddToEpoll(epollFd, &accelReadPeriod, &accelEventData, EPOLLIN);
+	if (accelTimerFd < 0) {
+		return -1;
+	}
 
 	return 0;
 }

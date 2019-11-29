@@ -1,3 +1,7 @@
+/*
+ * Owner: Swapnil Verma
+ * E-mail: usav[dot]swapnil[at]gmail[dot]com
+ */
 #pragma once
 
 int initUart(void);

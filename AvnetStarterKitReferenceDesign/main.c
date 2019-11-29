@@ -145,6 +145,8 @@ static void ButtonTimerEventHandler(EventData *eventData)
 	// The button has GPIO_Value_Low when pressed and GPIO_Value_High when released
 	if (newButtonAState != buttonAState) {
 		if (newButtonAState == GPIO_Value_Low) {
+			//Pressing the button does not do anything useful as of now but it can
+			//be made useful by modifing the data it sends to the OBD-II module via UART
 			SendUartMessage(uartFd, "Button A pressed!\n");
 			Log_Debug("Button A pressed!\n");
 			sendTelemetryButtonA = true;
@@ -170,7 +172,8 @@ static void ButtonTimerEventHandler(EventData *eventData)
 	// The button has GPIO_Value_Low when pressed and GPIO_Value_High when released
 	if (newButtonBState != buttonBState) {
 		if (newButtonBState == GPIO_Value_Low) {
-			// Send Telemetry here
+			//Pressing the button does not do anything useful as of now but it can
+			//be made useful by modifing the data it sends to the OBD-II module via UART
 			SendUartMessage(uartFd, "Button B pressed!\n");
 			Log_Debug("Button B pressed!\n");
 			sendTelemetryButtonB = true;
@@ -230,10 +233,13 @@ static int InitPeripheralsAndHandlers(void)
     if (epollFd < 0) {
         return -1;
     }
-
+	
+	//If you are initializing I2C then also close it properly in ClosePeripheralsAndHandlers function
+	/*
 	if (initI2c() == -1) {
 		return -1;
 	}
+	*/
 
 	if (initUart() == -1) {
 		return -1;
@@ -293,7 +299,7 @@ static void ClosePeripheralsAndHandlers(void)
 {
     Log_Debug("Closing file descriptors.\n");
     
-	closeI2c();
+	//closeI2c();
 	closeUart();
     CloseFdAndPrintError(epollFd, "Epoll");
 	CloseFdAndPrintError(buttonPollTimerFd, "buttonPoll");
@@ -391,7 +397,7 @@ int main(int argc, char *argv[])
 #if (defined(IOT_CENTRAL_APPLICATION) || defined(IOT_HUB_APPLICATION))
 		if (iothubClientHandle != NULL && !versionStringSent) {
 
-#warning "If you need to upodate the version string do so in main.c ~line 375!"
+#warning "If you need to update the version string do so in main.c ~line 375!"
 			checkAndUpdateDeviceTwin("versionString", "AvnetStarterKit-Hackster.io-V1.0", TYPE_STRING, false);
 			versionStringSent = true;
 		}
